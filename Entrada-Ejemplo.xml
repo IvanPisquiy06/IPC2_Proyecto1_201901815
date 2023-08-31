@@ -1,0 +1,52 @@
+<?xml version="1.0" ?>
+<senales>
+	<senal nombre="Ejemplo1" t="3" A="5">
+		<dato t="1" A="1">76</dato>
+		<dato t="1" A="2">22</dato>
+		<dato t="1" A="3">0</dato>
+		<dato t="1" A="4">0</dato>
+		<dato t="1" A="5">0</dato>
+		<dato t="2" A="1">20</dato>
+		<dato t="2" A="2">92</dato>
+		<dato t="2" A="3">0</dato>
+		<dato t="2" A="4">0</dato>
+		<dato t="2" A="5">0</dato>
+		<dato t="3" A="1">0</dato>
+		<dato t="3" A="2">0</dato>
+		<dato t="3" A="3">86</dato>
+		<dato t="3" A="4">43</dato>
+		<dato t="3" A="5">3</dato>
+	</senal>
+	<senal nombre="Ejemplo2" t="4" A="2">
+		<dato t="1" A="1">4</dato>
+		<dato t="1" A="2">0</dato>
+		<dato t="2" A="1">9</dato>
+		<dato t="2" A="2">0</dato>
+		<dato t="3" A="1">0</dato>
+		<dato t="3" A="2">0</dato>
+		<dato t="4" A="1">0</dato>
+		<dato t="4" A="2">21</dato>
+	</senal>
+	<senal nombre="Ejemplo3" t="5" A="4">
+		<dato t="1" A="1">73</dato>
+		<dato t="1" A="2">66</dato>
+		<dato t="1" A="3">0</dato>
+		<dato t="1" A="4">24</dato>
+		<dato t="2" A="1">20</dato>
+		<dato t="2" A="2">81</dato>
+		<dato t="2" A="3">0</dato>
+		<dato t="2" A="4">20</dato>
+		<dato t="3" A="1">30</dato>
+		<dato t="3" A="2">0</dato>
+		<dato t="3" A="3">89</dato>
+		<dato t="3" A="4">0</dato>
+		<dato t="4" A="1">18</dato>
+		<dato t="4" A="2">0</dato>
+		<dato t="4" A="3">58</dato>
+		<dato t="4" A="4">0</dato>
+		<dato t="5" A="1">49</dato>
+		<dato t="5" A="2">30</dato>
+		<dato t="5" A="3">0</dato>
+		<dato t="5" A="4">13</dato>
+	</senal>
+</senales>
