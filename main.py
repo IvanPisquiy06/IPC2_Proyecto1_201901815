@@ -22,7 +22,7 @@ class Nodo_Fila:
     def DevolverData(self):
         return self.Dato.DevolverData()
     
-    def InsertarEnColunma(self, Dato):
+    def InsertarEnColumna(self, Dato):
         self.Dato.InsertarEnColumna(Dato)
     
     def ImprimirListaColumna(self):
@@ -36,7 +36,7 @@ class Fila:
     def __init__(self, noFila, dato):
         self.NoFila = noFila
         self.ListaColumnas = Cola_Columna()
-        self.Dato = dato
+        self.Dato = dato if dato is not None else ""
 
     def InsertarEnColumna(self, dato):
         self.ListaColumnas.Insertar(dato)
@@ -130,7 +130,8 @@ class Nodo_Columna:
         self.Dato.ModificarDato(dato)
 
 def procesar_archivo_xml(xml_content):
-    senales = []
+    matriz_reducida = Nodo_Fila(0, None)  # Inicializar la matriz reducida de frecuencias
+
     for senal_element in xml_content.findall('senal'):
         nombre = senal_element.get('nombre')
         t = int(senal_element.get('t'))
@@ -145,25 +146,25 @@ def procesar_archivo_xml(xml_content):
             valor = int(dato_element.text)
 
             # Insertar el dato en la matriz de frecuencias
-            # ...
+            # Crear nodos para la fila actual en las matrices de frecuencias y patrones
+            nodo_frecuencia_actual = Nodo_Fila(fila, None)
+            nodo_patron_actual = Nodo_Fila(fila, None)
 
-            # Insertar el dato en la matriz de patrones
-            # ...
+            # Insertar los nodos en las matrices de frecuencias y patrones
+            matriz_frecuencias.AsignarSiguiente(nodo_frecuencia_actual)
+            matriz_patrones.AsignarSiguiente(nodo_patron_actual)
 
-        senales.append({
-            'nombre': nombre,
-            't': t,
-            'A': A,
-            'matriz_frecuencias': matriz_frecuencias,
-            'matriz_patrones': matriz_patrones
-        })
+            # Insertar el dato en la columna correspondiente de la matriz de frecuencias
+            nodo_frecuencia_actual.InsertarEnColumna(valor)
 
-    matriz_reducida = Nodo_Fila(0, None)  # Inicializar la matriz reducida de frecuencias
-    
-    # Analizar las matrices de patrones para reducir la matriz de frecuencias
-    for senal in senales:
-        nodo_patron = senal['matriz_patrones']
-        nodo_frecuencia = senal['matriz_frecuencias']
+            # Insertar el dato en la columna correspondiente de la matriz de patrones
+            nodo_patron_actual.InsertarEnColumna(1 if valor > 0 else 0)  # Usar 1 para valores mayores que cero, 0 en caso contrario
+
+        # Analizar las matrices de patrones para reducir la matriz de frecuencias
+        nodo_patron = matriz_patrones
+        matriz_patrones.ImprimirListaColumna()
+        nodo_frecuencia = matriz_frecuencias
+        matriz_frecuencias.ImprimirListaColumna()
         
         while nodo_patron.DevolverSiguiente() is not None:
             grupo_actual = nodo_patron.DevolverData()
@@ -175,20 +176,20 @@ def procesar_archivo_xml(xml_content):
             
             while columna_patron is not None and columna_frecuencia is not None:
                 if columna_patron.DevolverData() == 1:
-                    frecuencias_grupo.InsertarEnColunma(columna_frecuencia.DevolverData())
+                    frecuencias_grupo.InsertarEnColumna(columna_frecuencia.DevolverData())
                 columna_patron = columna_patron.DevolverSiguiente()
                 columna_frecuencia = columna_frecuencia.DevolverSiguiente()
             
             # Insertar el grupo de frecuencias en la matriz reducida
             if frecuencias_grupo.DevolverSiguiente() is not None:
-                matriz_reducida.InsertarEnColunma(frecuencias_grupo)
+                matriz_reducida.InsertarEnColumna(frecuencias_grupo)
             
             nodo_patron = nodo_patron.DevolverSiguiente()
             nodo_frecuencia = nodo_frecuencia.DevolverSiguiente()
 
     # Aquí puedes imprimir la matriz reducida o realizar otras operaciones con ella
     print("Matriz reducida de frecuencias:")
-    matriz_reducida.ImprimirListaColumna()
+    return matriz_reducida.ImprimirListaColumna()
 
 while programa:
     print("Menú Principal:")
