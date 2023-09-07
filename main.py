@@ -1,5 +1,6 @@
 import os
 import xml.etree.ElementTree as ET
+from graphviz import Digraph
 
 programa = True
 xml_content = None
@@ -191,6 +192,38 @@ def procesar_archivo_xml(xml_content):
     print("Matriz reducida de frecuencias:")
     return matriz_reducida.ImprimirListaColumna()
 
+def create_matrix(xml_file):
+
+    # Iterate through <senal> elements
+    for senal in xml_file.findall('.//senal'):
+        nombre = senal.get('nombre')
+        t = int(senal.get('t'))
+        a = int(senal.get('A'))
+
+        # Initialize a new Graphviz Digraph object for each example
+        dot = Digraph(comment=f'Matrix for {nombre}', format='png')
+
+        # Create nodes for row numbers (t)
+        dot.node(nombre, nombre)
+        dot.node(str(t), f't = {t}')
+        dot.node(str(a), f'A = {a}')
+        dot.edge(nombre, str(a))
+        dot.edge(nombre, str(t))
+
+        for i in range(1, t + 1):
+            for j in range(1, a + 1):
+                dato = senal.find(f'dato[@t="{i}"][@A="{j}"]')
+                node_name = f't = {i} A = {j}'
+                node_label = dato.text
+                dot.node(node_name, node_label)
+                if i == 1:
+                    dot.edge(nombre, node_name)
+                elif i > 1 and j < a + 2:
+                    dot.edge(f't = {i - 1} A = {j - 1}', f't = {i} A = {j}')
+
+    # Save the matrix as an image (you can change the filename and format)
+        dot.render(f'matrix_{nombre}', view=True)
+
 while programa:
     print("Menú Principal:")
     print(" 1. Cargar Archivo")
@@ -214,6 +247,8 @@ while programa:
                 tree = ET.parse(path)
                 root = tree.getroot()
                 xml_content = root  # Guardar el contenido XML en la variable
+
+                print(xml_content.findall('.//senal'))
             except ET.ParseError:
                 print("El archivo no es un XML válido.")
         else:
@@ -224,6 +259,15 @@ while programa:
             print(procesar_archivo_xml(xml_content))
         else:
             print("No hay ningun archivo XML cargado en la memoria")
+    elif opcion == 4:
+        print("Datos del estudiante:")
+        print("Ivan de Jesus Pisquiy Escobar")
+        print("201901815")
+        print("Introducción a la Programación y Computación 2 Sección 'A'")
+        print("Ingenieria en Ciencias y Sistemas")
+        print("4to Semestre")
+    elif opcion == 5:
+        create_matrix(xml_content)
         
     elif opcion == 7:
         programa = False
